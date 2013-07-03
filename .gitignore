@@ -1,2 +1,3 @@
 node_modules/
 mongodiary.iws
+public/stylesheets/*.css

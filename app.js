@@ -3,13 +3,15 @@ var express = require('express'),
     path = require('path'),
     db = require('./db');
 
-var app = express();
+var app = express(); // Expressのapp作成
 
 
+// app の設定
 app.set('port', process.env.PORT || 3003);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
+// dev環境でのみ(下記参照)
 if ('development' == app.get('env')) {
   app.use(express.favicon());
   app.use(express.logger('dev'));
@@ -26,14 +28,19 @@ app.use(express.session());
   app.use(require('./routes/admin'));
 
 
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('stylus').middleware(__dirname + '/public')); // Stylus用のMiddleware
+app.use(express.static(path.join(__dirname, 'public'))); // public以下のファイルをレスポンスするMiddleware
 
 
-// 環境変数 NODE_ENV から app.get('env') を変更
+// 環境変数 NODE_ENV は app.get('env') として扱える
+//
+// $ node app.js
+// -> 'development' == app.get('env')
+//
 // $ NODE_ENV=production node app.js
+// -> 'production' == app.get('env')
+//
 if ('development' == app.get('env')) {
-  // dev環境の設定(デフォルト, 指定なし)
   db.debug(true);
   app.set('db', 'localhost/mongodiary_dev');
   app.use(express.errorHandler());

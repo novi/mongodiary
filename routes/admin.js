@@ -1,16 +1,14 @@
 var express = require('express'),
-  db = require('../db');
+    db = require('../db');
 
 var app = express();
 
 // このモジュールをexport
 // app.jsから使う
 // var author = require('./routes/author')
-// author === app となる
+// author === app↓ となる
+//
 module.exports = app;
-
-const URL_ADMIN = '/admin',
-    URL_ARTICLES = URL_ADMIN + '/articles';
 
 // ログインを必要とするページのためのMiddleware
 var requireLogin = function(req, res, next) {
@@ -18,14 +16,18 @@ var requireLogin = function(req, res, next) {
   // セッションにauthor_idが無ければ(=未ログイン)、ログイン画面へ
   if (!req.session.author_id) return res.redirect('/login?next=' + encodeURIComponent(req.path));
 
-  return next(); // 次のMiddlewareへ, 2へ
+  return next(); // 次のMiddleware ---2.--- へ
 };
 
+
+const URL_ADMIN = '/admin',
+      URL_ARTICLES = URL_ADMIN + '/articles';
+
 // このURL以下はログインが必要
-app.all(URL_ADMIN + '/*', requireLogin); // 1
+app.all(URL_ADMIN + '/*', requireLogin); // 1.
 
 
-// 2
+// ---2.---
 // 記事一覧画面
 app.get(URL_ARTICLES, function(req, res, next) {
 

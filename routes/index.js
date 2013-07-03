@@ -51,6 +51,7 @@ app.post('/signup', function(req, res, next) {
 
   if (!req.param('email')) return res.send(400);
 
+  // createAuthor はModelで定義
   db.Author.createAuthor(req.param('email'), function(error, author) {
     if (error) return next(error);
 
