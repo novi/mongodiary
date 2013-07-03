@@ -11,7 +11,8 @@ var Comment = new Schema({
 var Post = new Schema({
 
   //ObjectID(_id)の参照, 参照先のモデルをrefで指定する(populate時などに有効)
-  owner: {type: ObjectId, ref:'Author'},
+  //投稿者, 必須
+  author: {type: ObjectId, ref:'Author', required:true},
 
   title: {type: String, required:true},
   body: {type: String, required:true},
@@ -42,7 +43,10 @@ Comment.pre('save', function(next) {
   next();
 });
 
-
+Post.statics.createNewArticle = function(author, title, body, callback) {
+  var article = new this({author:author, title:title, body:body});
+  article.save(callback);
+};
 
 
 module.exports = mongoose.model('Post', Post);

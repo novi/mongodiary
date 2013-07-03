@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  - if (postId)
+    h1 記事編集
+  - else
+    h1 新規記事
+  p
+    form(method="post", action=postId ? ("/admin/article/" + postId) : "/admin/article" )
+      p
+        label タイトル
+          input(type="text", name="title", value=title)
+      p
+        label 本文(Markdown)
+      p
+        textarea(name="body")= body
+      p
+        input(type="submit")

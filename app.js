@@ -22,6 +22,10 @@ app.use(express.session());
 
 // ルーティング middleware
 
+  app.use(require('./routes/index'));
+  app.use(require('./routes/admin'));
+
+
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,7 +38,9 @@ if ('development' == app.get('env')) {
   app.set('db', 'localhost/mongodiary_dev');
   app.use(express.errorHandler());
 
-} else if ('production' == app.get('env')) {
+}
+
+if ('production' == app.get('env')) {
   // 本番環境の設定
   app.set('db', 'localhost/mongodiary');
 }

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  - // メッセージを表示
+  p.message= session.login && session.login.message
+  - // 1度表示したのでクリア
+  - session.login = {}
+  h2 Login
+  p
+    form(method="post", action="/login")
+      input(type="text", name="email", placeholder="e-mail")
+      input(type="submit", value="Login")
+
+  h2 Signup
+  p
+    form(method="post", action="/signup")
+      input(type="text", name="email", placeholder="e-mail")
+      input(type="submit", value="Signup")

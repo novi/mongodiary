@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 管理画面
+  p
+    a(href="/admin/article") 新規記事
+  p 全記事リスト
+  - if (posts.length === 0)
+    p 記事がありません
+  ul
+    - each post in posts
+      li
+        p #{post.title} : #{post.comments.length} コメント &nbsp;
+          a(href="/article/#{post.id}", target="_blank") 開く
+          span &nbsp;
+          a(href="/admin/article/#{post.id}") 編集
+        p 作成日: #{post.createdAt.toLocaleString()} 更新日: #{post.updatedAt}

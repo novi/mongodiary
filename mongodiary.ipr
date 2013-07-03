@@ -55,6 +55,9 @@
       </profile-state>
     </entry>
   </component>
+  <component name="ProjectKey">
+    <option name="state" value="project://d79782bd-6699-4177-9fab-a93ca396b766" />
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/mongodiary.iml" filepath="$PROJECT_DIR$/mongodiary.iml" />
