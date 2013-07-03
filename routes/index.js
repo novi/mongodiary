@@ -43,7 +43,7 @@ app.post('/login', function(req, res, next) { // 1
     return res.redirect(req.param('next'));
   }
   // それ以外は、管理画面にリダイレクト
-  res.redirect('/admin/articles')
+  res.redirect('/admin/articles');
 });
 
 

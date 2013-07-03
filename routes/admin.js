@@ -31,7 +31,7 @@ app.get(URL_ARTICLES, function(req, res, next) {
 
   // 全記事取得
   // 別のAuthorの記事も出る
-  db.Post.find({}, function(error, posts) {
+  db.Article.find({}, function(error, posts) {
     if (error) return next(error);
 
     return res.render('list_articles', {posts:posts});
@@ -50,7 +50,7 @@ app.get(URL_ADMIN + '/article/:id', function(req, res, next) {
 
   // 指定された記事(id)を取得
   // req.param('id') で URL に含まれる:idを取得
-  db.Post.findById(req.param('id'), function(error, article) {
+  db.Article.findById(req.param('id'), function(error, article) {
     if (error) return next(error);
 
     if (!article) return res.send(404); // 記事が無い
@@ -63,7 +63,7 @@ app.get(URL_ADMIN + '/article/:id', function(req, res, next) {
 
 // 新規記事作成
 app.post(URL_ADMIN +'/article', function(req, res, next) {
-  db.Post.createNewArticle(req.session.author_id, req.param('title'), req.param('body'), function(error, article) {
+  db.Article.createNewArticle(req.session.author_id, req.param('title'), req.param('body'), function(error, article) {
     if (error) return next(error);
     return res.redirect(URL_ARTICLES);
   });
@@ -72,7 +72,7 @@ app.post(URL_ADMIN +'/article', function(req, res, next) {
 // 記事更新
 app.post(URL_ADMIN +'/article/:id', function(req, res, next) {
 
-  db.Post.findById(req.param('id'), function(error, article) {
+  db.Article.findById(req.param('id'), function(error, article) {
     if (error) return next(error);
 
     if (!article) return res.send(404); // 記事が無い

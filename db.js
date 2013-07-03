@@ -10,5 +10,5 @@ exports.debug = function(debug) {
 };
 
 exports.Author = require('./models/author');
-exports.Post = require('./models/post');
+exports.Article = require('./models/article');
 

@@ -8,7 +8,7 @@ var Comment = new Schema({
   createdAt: Date
 });
 
-var Post = new Schema({
+var Article = new Schema({
 
   //ObjectID(_id)の参照, 参照先のモデルをrefで指定する(populate時などに有効)
   //投稿者, 必須
@@ -28,7 +28,7 @@ var Post = new Schema({
 });
 
 // 保存前に現在時刻を挿入
-Post.pre('save', function(next) {
+Article.pre('save', function(next) {
   if(this.isNew) {
     this.createdAt = new Date();
   }
@@ -43,10 +43,10 @@ Comment.pre('save', function(next) {
   next();
 });
 
-Post.statics.createNewArticle = function(author, title, body, callback) {
+Article.statics.createNewArticle = function(author, title, body, callback) {
   var article = new this({author:author, title:title, body:body});
   article.save(callback);
 };
 
 
-module.exports = mongoose.model('Post', Post);
+module.exports = mongoose.model('Article', Article);
