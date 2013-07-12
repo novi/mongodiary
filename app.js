@@ -11,7 +11,7 @@ app.set('port', process.env.PORT || 3003);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-// dev環境でのみ(下記参照)
+// dev環境でのみ(envについては下記参照)
 if ('development' == app.get('env')) {
   app.use(express.favicon());
   app.use(express.logger('dev'));
@@ -22,10 +22,15 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 
-// ルーティング middleware
+// メインのルーティング Middleware
 
   app.use(require('./routes/index'));
-  app.use(require('./routes/admin'));
+  app.use(require('./routes/article'));
+
+  // adminAppとしてadminのAppをここの|app|のMiddlewareとして登録する
+  // appもMiddlewareの一つとして使えるのがExpressの設計のよいところ
+  var adminApp = require('./routes/admin');
+  app.use(adminApp);
 
 
 app.use(require('stylus').middleware(__dirname + '/public')); // Stylus用のMiddleware
@@ -59,3 +64,8 @@ db.connect(app.get('db'));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port %s in %s mode', app.get('port'), app.get('env'));
 });
+
+
+// listenするとサーバーが起動する
+// 本来はプログラムの最後を抜けるとNodeが終了するが、listenしている(socketが存在する)間は終了しない
+console.log('listen');

@@ -1,0 +1,13 @@
+extends layout
+
+mixin one-article(article)
+  .title= article.title
+  .one-article!= article.bodyHtml()
+  .meta
+    .created= article.dateString(article.createdAt)
+    .updated= article.dateString(article.updatedAt)
+    .author by #{article.author.email}
+
+block content
+  mixin one-article(article)
+

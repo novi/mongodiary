@@ -1,0 +1,10 @@
+extends layout
+extends one_article
+
+block content
+  - each article in articles
+    mixin one-article(article)
+    hr
+  - if(next)
+    .next
+      a(href="/?lt=#{next}") 次のページ

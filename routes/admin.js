@@ -33,7 +33,7 @@ app.get(URL_ARTICLES, function(req, res, next) {
 
   // 全記事取得
   // 別のAuthorの記事も出る
-  db.Article.find({}, function(error, posts) {
+  db.Article.find({}, null, {sort:{createdAt:-1}}, function(error, posts) {
     if (error) return next(error);
 
     return res.render('list_articles', {posts:posts});

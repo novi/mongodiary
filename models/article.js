@@ -2,6 +2,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
+var md = require("node-markdown").Markdown;
+
 
 var Comment = new Schema({
   text:{type:String, require:true},
@@ -42,6 +44,16 @@ Comment.pre('save', function(next) {
   }
   next();
 });
+
+
+Article.methods.bodyHtml = function() {
+  var html = md(this.body); // bodyのMarkdownをHTMLに変換
+  return html;
+};
+
+Article.methods.dateString = function(date) {
+  return '' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+};
 
 Article.statics.createNewArticle = function(author, title, body, callback) {
   var article = new this({author:author, title:title, body:body});
