@@ -25,7 +25,7 @@ app.post('/login', function(req, res, next) { // 1
     // 見つからなかったら...
     if (!author) {
       // メッセージをsessionに格納
-      req.session.login = {message: 'メールアドレスが違います'};
+      req.session.login = {message: 'メールアドレスまたはパスワードが違います'};
 
       return next(); // 2へ
     }

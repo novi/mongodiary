@@ -3,11 +3,55 @@ extends layout
 mixin one-article(article)
   .title= article.title
   .one-article!= article.bodyHtml()
+  .comments
+    - each comment in article.comments
+      .comment
+        .text= comment.text
+        .date= comment.createdAt
+    .add-comment
+      input.text(type="text",name="comment")
+      input.send(type="button", value="送信", data-id=article.id)
+  .like
+    div
+      span.count= article.likeCount
+      span likes
+    input.like-button(type="button",value="Like!", data-id=article.id)
   .meta
     .created= article.dateString(article.createdAt)
     .updated= article.dateString(article.updatedAt)
     .author by #{article.author.email}
 
+mixin article-js()
+  script(type='text/javascript')
+    $(function($) {
+
+      // Like Button
+      $('.like-button').click(function() {
+        var self = this; // button
+        var $count = $(this).parent().find('.count');
+        $.post('/article/' + $(this).data('id') + '/like', {}, function(response){
+          console.log(response);
+          if (response) {
+            var count = parseInt($count.text(), 10);
+            $count.text(count+1);
+            $(self).attr('disabled', true);
+          }
+        });
+      });
+
+      // Comment
+      $('.add-comment .send').click(function() {
+        var self = this; // button
+        var $text = $(this).parent().find('.text');
+        $.post('/article/' + $(this).data('id') + '/comment', {text:$text.val()}, function(response){
+          console.log(response)
+          location.href = location.href; // reload page
+        });
+
+      });
+    });
+
 block content
+  mixin article-js
   mixin one-article(article)
 

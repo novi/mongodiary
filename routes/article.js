@@ -48,3 +48,25 @@ app.get('/article/:id', function(req, res, next) {
 
   });
 });
+
+
+
+//
+
+
+app.post('/article/:id/like', function(req, res, next) {
+  db.Article.likeArticle(req.param('id'), function(error) {
+    if (error) return next(error);
+    res.json({});
+  })
+});
+
+app.post('/article/:id/comment', function(req, res, next) {
+  var text = req.param('text');
+  if (!text || text.length === 0) return res.json({},400);
+
+  db.Article.addComment(req.param('id'), text, function(error, article) {
+    if (error) return next(error);
+    res.json(article);
+  })
+});

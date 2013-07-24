@@ -1,5 +1,58 @@
+
+
+// Variables
+color-link = #0080FF
+color-bg = #ffffff
+color-text = #424242
+color-header = #ececec
+
+zeromargin()
+  margin 0
+  padding 0
+  -webkit-padding-start 0
+  -webkit-margin-before 0
+  -webkit-margin-after 0
+
 body
-  padding: 50px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  background-color #fff
+  font 0.8em Georgia
+  line-height 140%
+  color color-text
+  height 100%
+
 a
-  color: #00B7FF
+  color color-link
+  text-decoration none
+  &:hover
+    text-decoration underline
+
+#header
+  background color-header
+  height 110px
+  border-bottom 1px solid silver
+  #nav
+    width 600px
+    margin 0 auto
+    h1
+      zeromargin()
+    h1.title
+      padding-top 20px
+      a
+        color color-text
+    .subtitle
+      margin-top 25px
+
+#main
+  width 600px
+  margin 0 auto
+
+#footer
+  width 700px
+  margin 0 auto
+  p
+    text-align center
+  ul,ol
+    zeromargin()
+  li
+    text-align center
+    list-style-type none

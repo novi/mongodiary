@@ -2,6 +2,20 @@ doctype 5
 html
   head
     title= ''
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type='text/javascript', src='/javascripts/zepto.min.js')
   body
-    block content
+    header#header
+      nav#nav
+        h1.title
+          a(href="/") jp.novi.blog
+        p.subtitle 編集者はいません。参考文献もありません。悪しからず。なかのひと
+          a(href="http://twitter.com/novi_", target="_blank") @novi_
+    main#main
+      block content
+    footer#footer
+      ul
+        li
+          a(href="/login") 管理画面
+      p &copy; 2013 Marunouchi MongoDB.

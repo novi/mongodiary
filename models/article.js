@@ -60,5 +60,38 @@ Article.statics.createNewArticle = function(author, title, body, callback) {
   article.save(callback);
 };
 
+Article.statics.likeArticle = function(id, callback) {
+  // likeCount を $inc オペレータで+1する
+  this.findByIdAndUpdate(id, {$inc:{likeCount:1}}, callback);
+  /*
+  これだとアトミックに処理されないのでインクリメントは上を推奨
+  this.findById(id, function(error, article) {
+    if (error) return error;
+    article.likeCount = article.likeCount + 1;
+    article.save(callback);
+  });
+  */
+};
+
+Article.statics.addComment = function(id, text, callback) {
+
+  // article を検索
+  this.findById(id, function(error, article) {
+    if (error) return callback(error);
+
+    // comment を作成
+    var Comment = mongoose.model('Comment');
+    var comment = new Comment({text:text});
+
+    // article に comment を追加
+    article.comments.push(comment);
+
+    //
+    article.save(callback);
+
+  });
+};
+
+mongoose.model('Comment', Comment);
 
 module.exports = mongoose.model('Article', Article);
