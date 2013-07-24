@@ -20,6 +20,9 @@ body
   color color-text
   height 100%
 
+.clear
+  clear both
+
 a
   color color-link
   text-decoration none
@@ -45,6 +48,7 @@ a
 #main
   width 600px
   margin 0 auto
+  margin-bottom 20px
 
 #footer
   width 700px
@@ -56,3 +60,36 @@ a
   li
     text-align center
     list-style-type none
+
+// Articles
+
+.article-box
+  margin-top 30px
+  margin-bottom 40px
+  padding-bottom 20px
+  height 100%
+
+.article-line
+
+
+.date-likes
+  float left
+  width 100px
+  height 100px
+  a.like-button.disabled
+    color color-text
+    cursor normal
+
+.article
+  float left
+  width 480px
+  .title
+    a
+      color color-text
+  .author
+    text-align right
+  .add-comment
+    .text
+      width 400px
+  padding-bottom 10px
+  border-bottom 1px solid silver

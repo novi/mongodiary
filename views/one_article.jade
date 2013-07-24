@@ -1,29 +1,45 @@
 extends layout
 
 mixin one-article(article)
-  .title= article.title
-  .one-article!= article.bodyHtml()
-  .comments
-    - each comment in article.comments
-      .comment
-        .text= comment.text
-        .date= comment.createdAt
-    .add-comment
-      input.text(type="text",name="comment")
-      input.send(type="button", value="送信", data-id=article.id)
-  .like
-    div
-      span.count= article.likeCount
-      span likes
-    input.like-button(type="button",value="Like!", data-id=article.id)
-  .meta
-    .created= article.dateString(article.createdAt)
-    .updated= article.dateString(article.updatedAt)
-    .author by #{article.author.email}
+  .article-box
+    .date-likes
+      .created= article.dateString(article.createdAt)
+      .like
+        div
+          span.count= article.likeCount
+          span &nbsp;likes
+        a.like-button(href="javascript:void(0);",data-id=article.id) Like!
+    .article
+      h3.title
+        a(href="/article/#{article.id}")= article.title
+      .one-article!= article.bodyHtml()
+      .add-comment-button
+        a(href="javascript:void(0);") コメント (#{article.comments.length})
+      .comments(style="display:none;")
+        - each comment in article.comments
+          .comment
+            .text= comment.text
+            .date= article.dateString(comment.createdAt)
+        .add-comment
+          p
+            input.text(type="text",name="comment")
+          p.send-box
+            input.send(type="button", value="送信", data-id=article.id)
+      .meta
+        //.updated= article.dateString(article.updatedAt)
+        .author by #{article.author.email}
+  .clear
 
 mixin article-js()
   script(type='text/javascript')
     $(function($) {
+
+      // コメント投稿表示
+
+      $('.add-comment-button a').one('click', function(e){
+        console.log($(this).parent().parent());
+        $(this).closest('.article').find('.comments').show();
+      });
 
       // Like Button
       $('.like-button').click(function() {
@@ -34,7 +50,8 @@ mixin article-js()
           if (response) {
             var count = parseInt($count.text(), 10);
             $count.text(count+1);
-            $(self).attr('disabled', true);
+            $(self).unbind('click');
+            $(self).addClass('disabled');
           }
         });
       });
