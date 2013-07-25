@@ -43,7 +43,7 @@ app.get(URL_ARTICLES, function(req, res, next) {
 
 // 新規記事作成画面
 app.get(URL_ADMIN + '/article', function(req, res, next) {
-  res.render('edit_article', {postId:null, title:'', body:''});
+  res.render('edit_article', {article:null});
 });
 
 // 記事編集画面
@@ -58,7 +58,7 @@ app.get(URL_ADMIN + '/article/:id', function(req, res, next) {
     if (!article) return res.send(404); // 記事が無い
 
     // 既存のtitleとbodyをセット
-    return res.render('edit_article', {postId:article.id, title:article.title, body:article.body});
+    return res.render('edit_article', {article:article});
   })
 });
 
@@ -91,3 +91,33 @@ app.post(URL_ADMIN +'/article/:id', function(req, res, next) {
     });
   });
 });
+
+
+
+// ------ 削除関係
+
+app.del(URL_ADMIN + '/article/:id', function(req, res, next){
+  db.Article.findById(req.param('id'), function(error, article) {
+    if (error) return next(error);
+    if (!article) return res.send(404);
+    
+    article.remove(function(error) {
+      if (error) return next(error);
+      return res.redirect(URL_ARTICLES);
+    });
+  });
+});
+
+app.del(URL_ADMIN + '/article/:id/comment/:cid', function(req, res, next){
+  db.Article.findById(req.param('id'), function(error, article) {
+    if (error) return next(error);
+    if (!article) return res.send(404);
+    
+    article.comments.remove(req.param('cid')); // 配列内の要素をidで削除
+    article.save(function(error) {
+      if (error) return next(error);
+      return res.redirect(URL_ADMIN +'/article/' + article.id);
+    });
+  });
+});
+

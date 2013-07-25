@@ -10,9 +10,14 @@ block content
   ul
     - each post in posts
       li
-        p #{post.title} : #{post.comments.length} コメント &nbsp;
+        p #{post.title} : #{post.comments.length} コメント &nbsp; #{post.likeCount} likes &nbsp;
           a(href="/article/#{post.id}", target="_blank") 開く
           span &nbsp;
           a(href="/admin/article/#{post.id}") 編集
         p 作成日: #{post.createdAt.toLocaleString()}
         p 更新日: #{post.updatedAt}
+        form(action="/admin/article/#{post.id}", method="post")
+          p
+            input(type="hidden", name="_method", value="delete")
+            input(type="submit", value="削除")
+      

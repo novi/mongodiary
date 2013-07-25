@@ -59,7 +59,7 @@ mixin article-js()
       // Comment
       $('.add-comment .send').click(function() {
         var self = this; // button
-        var $text = $(this).parent().find('.text');
+        var $text = $(this).closest('.article').find('.add-comment .text');
         $.post('/article/' + $(this).data('id') + '/comment', {text:$text.val()}, function(response){
           console.log(response)
           location.href = location.href; // reload page
